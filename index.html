@@ -2,134 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>嘿嘿</title>
-  <style>
-  html,body{
+  <title>Document</title>
+</head>
+<style>
+  body, html {
+    margin: 0;
     width: 100%;
     height: 100%;
-    position: relative;
-    margin: 0;
-    padding: 0;
   }
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  #map {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 70%;
+    height: 100%;
+  }
+  #map.active-tip div{
+    cursor: url("img/tip.png") 4 12, pointer!important;
   }
 
-    .main{
-      position: fixed;
-      top: 10%; left: 10%;
+  .side-bar {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 29.5%;
+    padding: 10px;
+    height: 100%;
+    overflow: auto;
+  }
 
-      -webkit-animation-name: turn;
-      -webkit-animation-duration: 5s;
-      -webkit-animation-delay: 0;
-      -webkit-animation-iteration-count: infinite;
-      -webkit-animation-timing-function: linear;
-      -webkit-transform-timing-function: linear;
-      -webkit-animation-direction: alternate;
-     }
-  }
-  }
-  .main:hover{
-    -webkit-animation-play-state:paused;
-  }
-  @-webkit-keyframes turn{
-    0%{
-      transform: rotateY(0) rotateZ(30deg) translateX(-75px);
-      -webkit-animation-timing-function: ease-in-out;
-    }
-    100%{
-      transform: rotateY(360deg) rotateZ(-30deg) translateX(75px);
-      -webkit-animation-timing-function: ease-in-out;
-    }
-  }
-  .center {
-    text-align: center;
-  }
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    flex: 1;
-    margin-top: 30px;
-    width: 800px;
-    min-height: 660px;
-    background-color: #000;
-    color: #fff;
-    border-radius: 2px;
-  }
-  .content > ul {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    justify-content: center;
-    min-height: 80px;
-    list-style : none;
-    overflow: hidden;
-  }
-  .content > ul > li {
-    padding: 15px 20px 0 0;
-    text-align: center;
-  }
-  .content > ul > li > a  {
-    min-width: 80px;
-    height: 28px;
-    padding: 5px 10px;
-    color: #fff;
-    border-radius: 2px;
-    text-align: center;
-    text-decoration: none;
-    background-color: rgb(0, 135, 225);
-  }
-  .feihua {
-    margin: 0;
-    padding: 0;
-    color: #ccc;
-    font-size: 14px;
-    text-align: center;
-    line-height: 20px;
-  }
-  .footer{
-    font-size: 20px;
-    font-family: cursive;
-    text-align: center;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #99CC99;
-    -webkit-text-fill-color: transparent;
-  }
-  .cnzz{
-  }
-  </style>
-</head>
-
+</style>
 <body>
+  <div class="map" id="map"></div>
+  <div class="side-bar">
 
-<div class="main">
-  <img src="img/logo.png" width="200"  alt="">
-</div>
-<div class="content">
-  <span class="center">假如鼠标是弹弓,.... 咦， 可以弹弹弹呀</span>
-  <iframe src="http://c.oooooo6.com/learn-game/index.fall.html" frameborder="0" height="500px"></iframe>
-  <span class="center">假如这个不好玩</span>
-  <ul>
-    <li><a href="http://arvoguo.github.io/game/index.html">玩个碗？</a></li>
-    <li><a href="http://arvoguo.github.io/game/3d.html">玩个方？</a></li>
-    <li><a href="http://arvoguo.github.io/game/vg.html">玩个菜？</a></li>
-  </ul>
-</div>
-<p class="feihua">
-  <span>大哥不行啊！</span> <br>
-  <span>男人不能说不行</span><br>
-  <span>大哥，真的不行啊！</span><br>
-  <span>不行你换浏览器啊，换谷歌浏览器懂不懂啊！</span><br>
-  <span>大哥，好神奇啊！, 我这辈子只用 Chrome !!!!</span>
-</p>
-<div class="footer">
-  沪ICP备14052273号&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/ArvoGuo">https://github.com/ArvoGuo</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="mailto:250185087@qq.com">Email: 250185087@qq.com</a>
-  </br>
-  <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000285251'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1000285251%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+    <button id="point">point</button>
+    <button id="clear">clear</button>
+    <p id="p"></p>
+  </div>
+  <script src="http://map.qq.com/api/js?v=2.exp"></script>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="js/lib/emitter.js"></script>
+  <script src="js/lib/polygon.js"></script>
+  <script src="js/lib/map.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  'use strict';
+  var pointJq = $('#point');
+  var pJq = $('#p');
+  var clearJq = $('#clear');
+  var mapJq = $('#map');
+  var pointList = [];
+  var m = new Map({
+    element: mapJq[0]
+  });
 
-</div>
+  clearJq.on('click', function() {
+    pJq.html('');
+    m.clearMarkers();
+  });
+
+  pointJq.on('click', function() {
+    if (mapJq.hasClass('active-tip')) {
+      return;
+    }
+    mapJq.addClass('active-tip');
+    m.listenDrawPointOnce(function(result) {
+      mapJq.removeClass('active-tip');
+      pointList.push({
+        lat: result.latLng.lat,
+        lng: result.latLng.lng
+      });
+      m.addMarker(result.latLng);
+      pJq.html(pJq.html() + '</br>经度：'+ result.latLng.lng+'</br>纬度：' + result.latLng.lat + '</br>');
+    });
+  });
+
+
+  </script>
 </body>
 </html>
